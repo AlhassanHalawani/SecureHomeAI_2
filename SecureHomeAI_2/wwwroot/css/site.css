@@ -1,0 +1,19 @@
+.vh-100 {
+    height: 100vh; /* Full viewport height */
+}
+
+.d-flex {
+    display: flex; /* Flexbox layout */
+}
+
+.justify-content-center {
+    justify-content: center; /* Horizontal alignment */
+}
+
+.align-items-center {
+    align-items: center; /* Vertical alignment */
+}
+
+.text-center {
+    text-align: center; /* Center-align text */
+}

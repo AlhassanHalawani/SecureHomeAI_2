@@ -1,0 +1,58 @@
+﻿@model Tuple<SecureHomeAI_2.Models.SystemStatus, IEnumerable<SecureHomeAI_2.Models.User>>
+
+<!-- Hero Section -->
+<div class="hero">
+    <h1>SecureHome AI</h1>
+    <p>Advanced home intrusion detection powered by artificial intelligence. Protecting your home with cutting-edge technology.</p>
+</div>
+
+<!-- Main Content -->
+<main class="main-content" role="main">
+    <div class="dashboard">
+        <div class="card">
+            <h2>System Status</h2>
+            <p class="status-safe">@Model.Item1.Status</p>
+            <p>Last checked: @Model.Item1.LastChecked</p>
+        </div>
+
+        <div class="card">
+            <h2>Network Activity</h2>
+            <p>Connected Devices: @Model.Item1.ConnectedDevices</p>
+            <p>Suspicious Activities: @Model.Item1.SuspiciousActivities</p>
+        </div>
+
+        <div class="card">
+            <h2>AI Analysis</h2>
+            <p>Threat Level: Low</p>
+            <p>Pattern Analysis: Normal</p>
+        </div>
+    </div>
+
+    <div class="analytics-graph">
+        <h2>Network Traffic Analytics</h2>
+        <p>Real-time network monitoring visualization would appear here</p>
+    </div>
+
+    <!-- User List -->
+    <h2>Users</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Full Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Item2)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.FullName</td>
+                    <td>@user.Email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-action="UserManagement" class="btn btn-primary">Manage Users</a>
+</main>

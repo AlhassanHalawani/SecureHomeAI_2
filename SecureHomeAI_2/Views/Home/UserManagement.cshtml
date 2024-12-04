@@ -1,0 +1,46 @@
+﻿@model IEnumerable<SecureHomeAI_2.Models.User>
+
+<div class="container py-5">
+    <div class="d-flex flex-column align-items-center">
+        <h1 class="mb-4">User Management</h1>
+
+        <!-- Search Form -->
+        <form method="get" asp-action="UserManagement" class="mb-4 w-75">
+            <div class="input-group">
+                <input type="text" name="searchQuery" value="@ViewBag.SearchQuery" class="form-control" placeholder="Search users..." />
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+
+        <!-- Add User Button -->
+        <a asp-action="AddUser" class="btn btn-success mb-4">Add User</a>
+
+        <!-- User Table -->
+        <div class="table-responsive w-75">
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.Id</td>
+                            <td>@user.FullName</td>
+                            <td>@user.Email</td>
+                            <td>
+                                <a asp-action="EditUser" asp-route-id="@user.Id" class="btn btn-warning btn-sm">Edit</a>
+                                <a asp-action="DeleteUser" asp-route-id="@user.Id" class="btn btn-danger btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

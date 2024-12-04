@@ -1,0 +1,445 @@
+/* Main StyleSheet for SecureHome AI Website
+   Author: [Alhassan Halawani]
+   Date: October 29, 2024
+   Description: External stylesheet for the home security system website
+*/
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Space Mono", monospace;
+}
+
+
+/* Global Color Variables - Easy to modify site-wide color scheme */
+:root {
+  --primary-color: #1e2028;    /* Dark blue-gray background */
+  --secondary-color: #2d2f3b;   /* Lighter blue-gray for cards */
+  --accent-color: #4caf50;     /* Keeping green for success states */
+  --danger-color: #f44336;     /* Keeping red for alerts */
+  --background-color: #13141b; /* Darker background */
+  --text-color: #e1e1e1;       /* Light gray text */
+  --border-color: #2d2f3b;     /* Subtle borders */
+  --hover-color: #363846;      /* Slightly lighter for hover states */
+  --header-gradient: linear-gradient(to right, #1e2028, #2d2f3b);
+  --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Base Layout Styles */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* the new js stiles*/
+
+
+/* Alert Styles */
+.alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  color: white;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.alert-error {
+  background-color: var(--danger-color);
+}
+
+.alert-success {
+  background-color: var(--accent-color);
+}
+
+.alert-warning {
+  background-color: #ffa500;
+}
+
+/* Status Warning Style */
+.status-warning {
+  color: #ffa500;
+  font-weight: bold;
+}
+
+/* Expanded Image Style */
+.analytics-image.expanded {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 1200px;
+  height: auto;
+  z-index: 1000;
+  cursor: zoom-out;
+  transition: all 0.3s ease;
+}
+
+/* Overlay for expanded image */
+.analytics-image.expanded::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: -1;
+}
+/* Navigation Bar Styles */
+nav {
+  background-color: var(--primary-color);
+  padding: 1rem;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+nav a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 600; /* Semi-bold weight */
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+nav a:hover {
+  background-color: var(--hover-color);
+}
+
+/* Main Content Container */
+.main-content {
+  margin-top: 80px;
+  padding: 2rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Dashboard Grid Layout */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* Card Components */
+.card {
+  background: var(--secondary-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.3s ease;
+}
+.card h2 {
+  font-weight: 600; /* Semi-bold weight */
+}
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Status Indicators */
+.status-safe {
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.status-danger {
+  color: var(--danger-color);
+  font-weight: bold;
+}
+
+/* Table Styles - Enhanced */
+.features-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 2rem 0;
+  background: var(--secondary-color);
+  box-shadow: var(--card-shadow);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.features-table th,
+.features-table td {
+  padding: 1.2rem;
+  text-align: left;
+  border: 1px solid var(--border-color);
+}
+
+.features-table th {
+  background-color: var(--table-header-bg);
+  color: var(--text-color);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.features-table tr:nth-child(even) {
+  background-color: var(--table-stripe-bg);
+}
+
+.features-table tr:hover {
+  background-color: rgba(26, 35, 126, 0.05);
+}
+
+.features-table td {
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.3s ease;
+}
+
+/* Hero Section Styles */
+.hero {
+  background: linear-gradient(to right, var(--primary-color), #311b92);
+  color: var(--text-color);
+  padding: 4rem 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700; /* Bold weight */
+}
+
+.hero p {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  font-weight: 400; /* Regular weight */
+}
+
+/* Form Styles */
+.form-container {
+  max-width: 500px;
+  margin: 120px auto;
+  padding: 2rem;
+  background: var(--secondary-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500; /* Medium weight */
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-group input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(26, 35, 126, 0.1);
+}
+
+/* Button Styles */
+.btn {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
+}
+
+.btn-primary:hover {
+  background-color: #311b92;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600; /* Semi-bold weight */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: var(--hover-color);
+}
+
+/* About Page Specific Styles */
+.company-logo {
+  position: fixed;
+  top: 10px;    /* Adjust for desired distance from the top */
+  left: 10px;   /* Adjust for desired distance from the left */
+  width: 100px;  /* Adjust size as needed */
+  height: auto;
+  z-index: 101; /* Ensure it stays above other elements */
+}
+
+.about-hero {
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 2rem 0;
+  align-items: center;
+}
+
+.overview-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.analytics-image {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.features-section {
+  margin: 4rem 0;
+}
+
+/* iframe Container */
+.iframe-container {
+  position: relative;
+  overflow: hidden;
+  padding-top: 56.25%;
+  margin: 2rem 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.iframe-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Feature Columns */
+.features-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.feature-list {
+  background: var(--secondary-color);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.feature-list > li {
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.feature-list ul {
+  margin-left: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.feature-list ul li {
+  font-weight: normal;
+  margin-bottom: 0.5rem;
+}
+
+/* Analytics Section */
+.analytics-graph {
+  width: 100%;
+  height: 300px;
+  background: var(--secondary-color);
+  border-radius: 8px;
+  margin-top: 2rem;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .overview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .features-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .features-table {
+    font-size: 0.9rem;
+  }
+
+  .features-table th,
+  .features-table td {
+    padding: 0.8rem;
+  }
+}

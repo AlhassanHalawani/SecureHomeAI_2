@@ -1,0 +1,107 @@
+/* System Monitor Styles */
+.system-monitor {
+  background: var(--secondary-color);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--card-shadow);
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.monitor-time {
+  border-right: 1px solid var(--border-color);
+  padding-right: 2rem;
+}
+
+.time-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.time-display .time {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  margin-bottom: 0.5rem;
+}
+
+.time-display .date {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+.monitor-status {
+  padding-left: 1rem;
+}
+
+.status-check {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.status-normal {
+  background: rgba(76, 175, 80, 0.1);
+}
+
+.status-warning {
+  background: rgba(255, 152, 0, 0.1);
+  animation: pulse 2s infinite;
+}
+
+.system-name {
+  font-weight: 600;
+}
+
+.system-status {
+  text-align: center;
+}
+
+.check-time {
+  text-align: right;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .system-monitor {
+    grid-template-columns: 1fr;
+  }
+
+  .monitor-time {
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding-right: 0;
+    padding-bottom: 1rem;
+  }
+
+  .monitor-status {
+    padding-left: 0;
+    padding-top: 1rem;
+  }
+
+  .status-check {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .check-time {
+    text-align: center;
+  }
+}

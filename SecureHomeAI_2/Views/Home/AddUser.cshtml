@@ -1,0 +1,12 @@
+﻿@model SecureHomeAI_2.Models.User
+
+<h1>Add User</h1>
+<form method="post" asp-action="AddUser">
+    <label>Full Name</label>
+    <input type="text" name="FullName" required />
+    <label>Email</label>
+    <input type="email" name="Email" required />
+    <label>Password</label>
+    <input type="password" name="Password" required />
+    <button type="submit">Add User</button>
+</form>

@@ -1,0 +1,13 @@
+﻿@model SecureHomeAI_2.Models.User
+
+<h1>Edit User</h1>
+<form method="post" asp-action="EditUser">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <label>Full Name</label>
+    <input type="text" name="FullName" value="@Model.FullName" required />
+    <label>Email</label>
+    <input type="email" name="Email" value="@Model.Email" required />
+    <label>Password</label>
+    <input type="password" name="Password" value="@Model.Password" required />
+    <button type="submit">Save Changes</button>
+</form>
