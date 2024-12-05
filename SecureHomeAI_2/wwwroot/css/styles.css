@@ -253,14 +253,14 @@ nav a:hover {
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500; /* Medium weight */
-}
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
 
 .form-group input {
   width: 100%;
@@ -275,6 +275,37 @@ nav a:hover {
   outline: none;
   box-shadow: 0 0 0 2px rgba(26, 35, 126, 0.1);
 }
+
+
+    /* Specific styles for the remember me checkbox container */
+    .form-group.remember-me {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: auto;
+    }
+
+        .form-group.remember-me label {
+            display: inline;
+            margin-bottom: 0;
+        }
+
+        /* Fix checkbox appearance */
+        .form-group.remember-me input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            margin: 0;
+            accent-color: var(--accent-color);
+            cursor: pointer;
+        }
+
+/* Make sure checkbox doesn't stretch */
+input[type="checkbox"] {
+    min-width: 16px;
+    max-width: 16px;
+    padding: 0;
+}
+
 
 /* Button Styles */
 .btn {
@@ -704,6 +735,7 @@ nav a:hover {
         display: block;
         margin-bottom: 0.5rem;
         font-weight: 500;
+        color: var(--text-color);
     }
 
     .form-group input {
@@ -951,5 +983,55 @@ nav a:hover {
     .logout-btn, .register-btn {
         width: 100%;
         text-align: center;
+    }
+}
+.analytics-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin: 1rem 0;
+}
+
+    .analytics-image:hover {
+        transform: scale(1.02);
+    }
+
+/* Add or update these styles in your styles.css */
+
+.logo a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo a:hover img {
+    transform: scale(1.05);
+}
+
+.logo span {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+    .logo img {
+        height: 32px;
+    }
+
+    .logo span {
+        font-size: 1rem;
     }
 }

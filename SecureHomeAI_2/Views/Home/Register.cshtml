@@ -1,40 +1,31 @@
-﻿@model SecureHomeAI_2.Models.User
+﻿@{
+    ViewData["Title"] = "Register";
+}
 
 <div class="form-container">
     <h2>Create Your Account</h2>
 
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-error">
-            @TempData["Error"]
-        </div>
-    }
-
-    <form method="post" asp-controller="Home" asp-action="Register">
+    <form asp-controller="Home" asp-action="Register" method="post">
         @Html.AntiForgeryToken()
 
         <div class="form-group">
-            <label asp-for="FullName">Full Name</label>
-            <input asp-for="FullName" type="text" required>
-            <span asp-validation-for="FullName" class="text-danger"></span>
+            <label for="fullname">Full Name</label>
+            <input type="text" id="fullname" name="FullName" required>
         </div>
 
         <div class="form-group">
-            <label asp-for="Email">Email Address</label>
-            <input asp-for="Email" type="email" required>
-            <span asp-validation-for="Email" class="text-danger"></span>
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="Email" required>
         </div>
 
         <div class="form-group">
-            <label asp-for="Password">Password</label>
-            <input asp-for="Password" type="password" required>
-            <span asp-validation-for="Password" class="text-danger"></span>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="Password" required>
         </div>
 
         <div class="form-group">
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" required>
-            <span id="confirmPasswordError" class="text-danger"></span>
+            <label for="confirm-password">Confirm Password</label>
+            <input type="password" id="confirm-password" name="confirmPassword" required>
         </div>
 
         <button type="submit" class="submit-btn">Create Account</button>
@@ -47,16 +38,21 @@
             const form = document.querySelector('form');
 
             form.addEventListener('submit', function(e) {
-                const password = document.getElementById('Password').value;
-                const confirmPassword = document.getElementById('confirmPassword').value;
+                e.preventDefault();
+
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
 
                 if (password !== confirmPassword) {
-                    e.preventDefault();
-                    document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
                     showAlert('Passwords do not match', 'error');
+                    return;
                 }
+
+                // If passwords match, submit the form
+                this.submit();
             });
 
+            // Show any error messages from TempData
         @if (TempData["Error"] != null)
         {
             <text>

@@ -126,45 +126,54 @@ namespace SecureHomeAI_2.Controllers
         // POST: Home/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register([FromForm] User user, [FromForm] string confirmPassword)
+        public IActionResult Register(string FullName, string Email, string Password, string confirmPassword)
         {
             try
             {
                 // Validate required fields
-                if (string.IsNullOrEmpty(user.FullName) ||
-                    string.IsNullOrEmpty(user.Email) ||
-                    string.IsNullOrEmpty(user.Password) ||
+                if (string.IsNullOrEmpty(FullName) ||
+                    string.IsNullOrEmpty(Email) ||
+                    string.IsNullOrEmpty(Password) ||
                     string.IsNullOrEmpty(confirmPassword))
                 {
                     TempData["Error"] = "All fields are required";
-                    return View(user);
-                }
-
-                // Check password match
-                if (user.Password != confirmPassword)
-                {
-                    TempData["Error"] = "Passwords do not match";
-                    return View(user);
+                    return RedirectToAction("Register");
                 }
 
                 // Validate password length
-                if (user.Password.Length < 8)
+                if (Password.Length < 8)
                 {
                     TempData["Error"] = "Password must be at least 8 characters long";
-                    return View(user);
+                    return RedirectToAction("Register");
+                }
+
+                // Check password match
+                if (Password != confirmPassword)
+                {
+                    TempData["Error"] = "Passwords do not match";
+                    return RedirectToAction("Register");
                 }
 
                 // Check if email already exists
-                if (_context.Users.Any(u => u.Email == user.Email))
+                if (_context.Users.Any(u => u.Email == Email))
                 {
                     TempData["Error"] = "Email already registered";
-                    return View(user);
+                    return RedirectToAction("Register");
                 }
+
+                // Create new user
+                var user = new User
+                {
+                    FullName = FullName,
+                    Email = Email,
+                    Password = Password // In production, hash the password
+                };
 
                 // Add user to database
                 _context.Users.Add(user);
                 _context.SaveChanges();
 
+                _logger.LogInformation($"New user registered: {Email}");
                 TempData["Success"] = "Registration successful! Please login.";
                 return RedirectToAction("Login");
             }
@@ -172,7 +181,7 @@ namespace SecureHomeAI_2.Controllers
             {
                 _logger.LogError($"Registration error: {ex.Message}");
                 TempData["Error"] = "An error occurred during registration";
-                return View(user);
+                return RedirectToAction("Register");
             }
         }
 

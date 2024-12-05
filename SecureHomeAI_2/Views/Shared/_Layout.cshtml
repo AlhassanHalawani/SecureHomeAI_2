@@ -12,18 +12,17 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/site.csss" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/systemMonitor.css" asp-append-version="true" />
 </head>
-<body style ="padding-top: 70px;">
+<body style="padding-top: 70px;">
     <header>
-        <!-- Replace the existing nav section in _Layout.cshtml -->
         <nav class="navbar">
             <div class="nav-container">
                 <div class="logo">
                     <a asp-controller="Home" asp-action="Index">
-                        <img src="/api/placeholder/40/40" alt="SecureHome AI" />
-                        SecureHome AI
+                        <img src="~/img/IDS.png" alt="SecureHome AI" style="height: 40px; width: auto;" />
+                        <span>SecureHome AI</span>
                     </a>
                 </div>
                 <ul class="nav-links">
@@ -48,7 +47,6 @@
                 </ul>
             </div>
         </nav>
-
     </header>
 
     <div class="container">
@@ -56,14 +54,11 @@
             @RenderBody()
         </main>
     </div>
-    
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation/1.19.5/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.13/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/js/main.js"></script>
-
     <script src="~/js/main.js" asp-append-version="true"></script>
     <script src="~/js/systemMonitor.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
