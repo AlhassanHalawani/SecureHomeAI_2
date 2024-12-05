@@ -58,8 +58,15 @@ namespace SecureHomeAI_2.Controllers
 
         // POST: Home/Login
         [HttpPost]
-        public async Task<IActionResult> Login(string email, string password)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login([FromForm] string email, [FromForm] string password)
         {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                TempData["Error"] = "Email and password are required";
+                return RedirectToAction("Login");
+            }
+
             var user = _context.Users.FirstOrDefault(u => u.Email == email);
 
             if (user != null && user.Password == password) // In production, use proper password hashing
@@ -71,11 +78,11 @@ namespace SecureHomeAI_2.Controllers
 
                 // Create claims for the user
                 var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.FullName),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim("UserId", user.Id.ToString())
-                };
+        {
+            new Claim(ClaimTypes.Name, user.FullName),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim("UserId", user.Id.ToString())
+        };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -118,10 +125,35 @@ namespace SecureHomeAI_2.Controllers
 
         // POST: Home/Register
         [HttpPost]
-        public IActionResult Register(User user)
+        [ValidateAntiForgeryToken]
+        public IActionResult Register([FromForm] User user, [FromForm] string confirmPassword)
         {
-            if (ModelState.IsValid)
+            try
             {
+                // Validate required fields
+                if (string.IsNullOrEmpty(user.FullName) ||
+                    string.IsNullOrEmpty(user.Email) ||
+                    string.IsNullOrEmpty(user.Password) ||
+                    string.IsNullOrEmpty(confirmPassword))
+                {
+                    TempData["Error"] = "All fields are required";
+                    return View(user);
+                }
+
+                // Check password match
+                if (user.Password != confirmPassword)
+                {
+                    TempData["Error"] = "Passwords do not match";
+                    return View(user);
+                }
+
+                // Validate password length
+                if (user.Password.Length < 8)
+                {
+                    TempData["Error"] = "Password must be at least 8 characters long";
+                    return View(user);
+                }
+
                 // Check if email already exists
                 if (_context.Users.Any(u => u.Email == user.Email))
                 {
@@ -129,14 +161,19 @@ namespace SecureHomeAI_2.Controllers
                     return View(user);
                 }
 
-                // In production, hash the password before saving
+                // Add user to database
                 _context.Users.Add(user);
                 _context.SaveChanges();
 
                 TempData["Success"] = "Registration successful! Please login.";
                 return RedirectToAction("Login");
             }
-            return View(user);
+            catch (Exception ex)
+            {
+                _logger.LogError($"Registration error: {ex.Message}");
+                TempData["Error"] = "An error occurred during registration";
+                return View(user);
+            }
         }
 
         // GET: Home/UserManagement
@@ -148,19 +185,33 @@ namespace SecureHomeAI_2.Controllers
                 return RedirectToAction("Login");
             }
 
-            var users = string.IsNullOrEmpty(searchQuery)
-                ? _context.Users.ToList()
-                : _context.Users.Where(u => u.FullName.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)).ToList();
+            try
+            {
+                IQueryable<User> query = _context.Users;
 
-            ViewBag.SearchQuery = searchQuery;
-            return View(users);
+                if (!string.IsNullOrWhiteSpace(searchQuery))
+                {
+                    query = query.Where(u =>
+                        u.FullName.Contains(searchQuery) ||
+                        u.Email.Contains(searchQuery));
+                }
+
+                var users = query.ToList();
+                ViewBag.SearchQuery = searchQuery;
+                return View(users);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error in UserManagement: {ex.Message}");
+                TempData["Error"] = "Error loading users";
+                return View(new List<User>());
+            }
         }
 
         // GET: Home/AddUser
         [HttpGet]
         public IActionResult AddUser()
         {
-            // Check if user is authenticated
             if (HttpContext.Session.GetString("UserId") == null)
             {
                 return RedirectToAction("Login");
@@ -170,14 +221,38 @@ namespace SecureHomeAI_2.Controllers
 
         // POST: Home/AddUser
         [HttpPost]
-        public IActionResult AddUser(User user)
+        [ValidateAntiForgeryToken]
+        public IActionResult AddUser(User user, string confirmPassword)
         {
+            if (user.Password != confirmPassword)
+            {
+                ModelState.AddModelError("", "Passwords do not match");
+                TempData["Error"] = "Passwords do not match";
+                return View(user);
+            }
+
             if (ModelState.IsValid)
             {
-                _context.Users.Add(user);
-                _context.SaveChanges();
-                TempData["Success"] = "User added successfully";
-                return RedirectToAction("UserManagement");
+                try
+                {
+                    if (_context.Users.Any(u => u.Email == user.Email))
+                    {
+                        ModelState.AddModelError("Email", "Email already exists");
+                        TempData["Error"] = "Email already exists";
+                        return View(user);
+                    }
+
+                    _context.Users.Add(user);
+                    _context.SaveChanges();
+                    TempData["Success"] = "User added successfully";
+                    return RedirectToAction("UserManagement");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Error adding user: {ex.Message}");
+                    ModelState.AddModelError("", "Error occurred while saving the user");
+                    return View(user);
+                }
             }
             return View(user);
         }
@@ -186,54 +261,104 @@ namespace SecureHomeAI_2.Controllers
         [HttpGet]
         public IActionResult EditUser(int id)
         {
-            // Check if user is authenticated
             if (HttpContext.Session.GetString("UserId") == null)
             {
                 return RedirectToAction("Login");
             }
 
-            var user = _context.Users.Find(id);
-            if (user == null)
+            try
             {
-                return NotFound();
+                var user = _context.Users.Find(id);
+                if (user == null)
+                {
+                    TempData["Error"] = "User not found";
+                    return RedirectToAction("UserManagement");
+                }
+                return View(user);
             }
-            return View(user);
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error retrieving user for edit: {ex.Message}");
+                TempData["Error"] = "Error retrieving user";
+                return RedirectToAction("UserManagement");
+            }
         }
 
         // POST: Home/EditUser
         [HttpPost]
-        public IActionResult EditUser(User updatedUser)
+        [ValidateAntiForgeryToken]
+        public IActionResult EditUser(User updatedUser, string confirmPassword)
         {
+            if (updatedUser.Password != confirmPassword)
+            {
+                ModelState.AddModelError("", "Passwords do not match");
+                TempData["Error"] = "Passwords do not match";
+                return View(updatedUser);
+            }
+
             if (ModelState.IsValid)
             {
-                var user = _context.Users.Find(updatedUser.Id);
-                if (user == null)
+                try
                 {
-                    return NotFound();
+                    var existingUser = _context.Users.Find(updatedUser.Id);
+                    if (existingUser == null)
+                    {
+                        TempData["Error"] = "User not found";
+                        return RedirectToAction("UserManagement");
+                    }
+
+                    // Check if email is being changed and if it's already in use
+                    if (existingUser.Email != updatedUser.Email &&
+                        _context.Users.Any(u => u.Email == updatedUser.Email))
+                    {
+                        ModelState.AddModelError("Email", "Email already exists");
+                        TempData["Error"] = "Email already exists";
+                        return View(updatedUser);
+                    }
+
+                    existingUser.FullName = updatedUser.FullName;
+                    existingUser.Email = updatedUser.Email;
+                    existingUser.Password = updatedUser.Password;
+
+                    _context.Update(existingUser);
+                    _context.SaveChanges();
+                    TempData["Success"] = "User updated successfully";
+                    return RedirectToAction("UserManagement");
                 }
-
-                user.FullName = updatedUser.FullName;
-                user.Email = updatedUser.Email;
-                user.Password = updatedUser.Password;
-                _context.SaveChanges();
-
-                TempData["Success"] = "User updated successfully";
-                return RedirectToAction("UserManagement");
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Error updating user: {ex.Message}");
+                    ModelState.AddModelError("", "Error occurred while updating the user");
+                    return View(updatedUser);
+                }
             }
             return View(updatedUser);
         }
 
         // POST: Home/DeleteUser/5
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteUser(int id)
         {
-            var user = _context.Users.Find(id);
-            if (user != null)
+            try
             {
+                var user = _context.Users.Find(id);
+                if (user == null)
+                {
+                    TempData["Error"] = "User not found";
+                    return RedirectToAction("UserManagement");
+                }
+
                 _context.Users.Remove(user);
                 _context.SaveChanges();
                 TempData["Success"] = "User deleted successfully";
             }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error deleting user: {ex.Message}");
+                TempData["Error"] = "Error occurred while deleting the user";
+            }
+
             return RedirectToAction("UserManagement");
         }
 
