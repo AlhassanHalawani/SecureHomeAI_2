@@ -17,33 +17,24 @@
 </head>
 <body style ="padding-top: 70px;">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-primary border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">SecureHomeAI</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="Home" asp-action="About">About Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="Home" asp-action="Login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="Home" asp-action="Register">Register</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-action="UserManagement">User Management</a>
-                        </li>
-
-                    </ul>
+        <!-- Replace the existing nav section in _Layout.cshtml -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <a asp-controller="Home" asp-action="Index">
+                        <img src="/api/placeholder/40/40" alt="SecureHome AI" />
+                        SecureHome AI
+                    </a>
                 </div>
+                <ul class="nav-links">
+                    <li><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                    <li><a asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-controller="Home" asp-action="UserManagement">Users</a></li>
+                    <li class="auth-links">
+                        <a asp-controller="Home" asp-action="Login">Login</a>
+                        <a asp-controller="Home" asp-action="Register" class="register-btn">Register</a>
+                    </li>
+                </ul>
             </div>
         </nav>
 
@@ -57,6 +48,11 @@
     
 
     <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.13/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/main.js"></script>
+
     <script src="~/js/main.js" asp-append-version="true"></script>
     <script src="~/js/systemMonitor.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

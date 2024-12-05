@@ -442,4 +442,155 @@ nav a:hover {
   .features-table td {
     padding: 0.8rem;
   }
+    /* Add to styles.css */
+    .navbar {
+        background: var(--primary-color);
+        padding: 1rem 2rem;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo a {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        color: var(--text-color);
+        text-decoration: none;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        list-style: none;
+    }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+            .nav-links a:hover {
+                color: var(--accent-color);
+            }
+
+    .auth-links {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .register-btn {
+        background: var(--accent-color);
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        color: white !important;
+    }
+
+        .register-btn:hover {
+            background: #45a049;
+        }
+    /* Add to styles.css */
+    .stat-card {
+        background: var(--secondary-color);
+        border-radius: 12px;
+        padding: 1.5rem;
+        display: flex;
+        gap: 1.5rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+    .card-icon {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .card-content h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: var(--text-color);
+    }
+
+    .highlight {
+        color: var(--accent-color);
+        font-weight: bold;
+    }
+
+    .alert {
+        color: var(--danger-color);
+        font-weight: bold;
+    }
+
+    .safe {
+        color: var(--accent-color);
+        font-weight: bold;
+    }
+
+    .normal {
+        color: #ffd700;
+        font-weight: bold;
+    }
+
+
+}
+
+/* Add to styles.css */
+.system-monitor-widget {
+    background: var(--secondary-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--card-shadow);
+}
+
+.monitor-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+    .stat .label {
+        color: var(--text-color);
+        opacity: 0.8;
+    }
+
+    .stat .value {
+        font-weight: bold;
+    }
+
+.text-success {
+    color: var(--accent-color);
+}
+
+.text-danger {
+    color: var(--danger-color);
 }

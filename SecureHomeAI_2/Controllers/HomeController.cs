@@ -130,5 +130,33 @@ namespace SecureHomeAI_2.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        // Add these methods to HomeController.cs
+        [HttpPost]
+        public IActionResult Login(string email, string password)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Email == email);
+            if (user != null && user.Password == password) // Note: In production, use proper password hashing
+            {
+                // Add proper authentication here
+                return RedirectToAction("Index");
+            }
+            TempData["Error"] = "Invalid login credentials";
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        public IActionResult GetSystemStatus()
+        {
+            var status = new SystemStatus
+            {
+                Status = "SECURE",
+                ConnectedDevices = new Random().Next(5, 15),
+                SuspiciousActivities = new Random().Next(0, 3),
+                LastChecked = DateTime.Now.ToString("HH:mm:ss")
+            };
+            return Json(status);
+        }
     }
+
+
 }

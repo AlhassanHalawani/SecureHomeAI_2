@@ -1,0 +1,23 @@
+﻿@model SecureHomeAI_2.Models.SystemStatus
+
+<div class="system-monitor-widget" id="systemMonitorWidget">
+    <h3>Real-Time System Monitor</h3>
+    <div class="monitor-stats">
+        <div class="stat">
+            <span class="label">Status:</span>
+            <span class="value @(Model.Status == "SECURE" ? "text-success" : "text-danger")">@Model.Status</span>
+        </div>
+        <div class="stat">
+            <span class="label">Connected Devices:</span>
+            <span class="value">@Model.ConnectedDevices</span>
+        </div>
+        <div class="stat">
+            <span class="label">Suspicious Activities:</span>
+            <span class="value">@Model.SuspiciousActivities</span>
+        </div>
+        <div class="stat">
+            <span class="label">Last Updated:</span>
+            <span class="value">@Model.LastChecked</span>
+        </div>
+    </div>
+</div>

@@ -142,4 +142,67 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(updateSecurityStatus, 5000);
     setInterval(updateNetworkActivity, 7000);
   }
+
 });
+
+
+
+// Real-time system monitoring
+function updateSystemMonitor() {
+    fetch('/Home/GetSystemStatus')
+        .then(response => response.json())
+        .then(data => {
+            document.querySelectorAll('.stat-value').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (data[key] !== undefined) {
+                    element.textContent = data[key];
+                    if (key === 'Status') {
+                        element.className = `stat-value ${data[key] === 'SECURE' ? 'text-success' : 'text-danger'}`;
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+// Update every 5 seconds
+if (document.getElementById('systemMonitorWidget')) {
+    setInterval(updateSystemMonitor, 5000);
+}
+
+// Add form validation
+document.addEventListener('DOMContentLoaded', function () {
+    const loginForm = document.querySelector('form');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(email)) {
+                showAlert('Please enter a valid email address', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showAlert('Password must be at least 6 characters', 'error');
+                return;
+            }
+
+            this.submit();
+        });
+    }
+});
+
+// Alert system
+function showAlert(message, type) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `alert alert-${type}`;
+    alertDiv.textContent = message;
+    document.body.appendChild(alertDiv);
+
+    setTimeout(() => {
+        alertDiv.remove();
+    }, 3000);
+}
