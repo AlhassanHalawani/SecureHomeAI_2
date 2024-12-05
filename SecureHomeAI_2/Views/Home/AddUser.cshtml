@@ -1,12 +1,33 @@
 ﻿@model SecureHomeAI_2.Models.User
 
-<h1>Add User</h1>
-<form method="post" asp-action="AddUser">
-    <label>Full Name</label>
-    <input type="text" name="FullName" required />
-    <label>Email</label>
-    <input type="email" name="Email" required />
-    <label>Password</label>
-    <input type="password" name="Password" required />
-    <button type="submit">Add User</button>
-</form>
+<div class="form-container">
+    <div class="form-header">
+        <h2>Add New User</h2>
+        <p>Create a new user account</p>
+    </div>
+
+    <form method="post" asp-action="AddUser" class="user-form">
+        <div class="form-group">
+            <label for="FullName">Full Name</label>
+            <input type="text" id="FullName" name="FullName" required
+                   placeholder="Enter full name" />
+        </div>
+
+        <div class="form-group">
+            <label for="Email">Email Address</label>
+            <input type="email" id="Email" name="Email" required
+                   placeholder="Enter email address" />
+        </div>
+
+        <div class="form-group">
+            <label for="Password">Password</label>
+            <input type="password" id="Password" name="Password" required
+                   placeholder="Enter password" />
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Add User</button>
+            <a asp-action="UserManagement" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
