@@ -1,11 +1,18 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Login";
 }
+
 <div class="form-container">
     <h2>Login to Your Account</h2>
-    <form action="#" method="POST">
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">
+            @TempData["Error"]
+        </div>
+    }
+
+    <form action="@Url.Action("Login", "Home")" method="POST">
         <div class="form-group">
             <label for="email">Email Address</label>
             <input type="email" id="email" name="email" required>
@@ -16,6 +23,12 @@
             <input type="password" id="password" name="password" required>
         </div>
 
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="RememberMe"> Remember me
+            </label>
+        </div>
+
         <button type="submit" class="submit-btn">Login</button>
     </form>
-</div>
+</div>  

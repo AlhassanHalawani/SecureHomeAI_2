@@ -27,13 +27,24 @@
                     </a>
                 </div>
                 <ul class="nav-links">
-                    <li><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
-                    <li><a asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-controller="Home" asp-action="UserManagement">Users</a></li>
-                    <li class="auth-links">
-                        <a asp-controller="Home" asp-action="Login">Login</a>
-                        <a asp-controller="Home" asp-action="Register" class="register-btn">Register</a>
-                    </li>
+                    @if (Context.Session.GetString("UserId") != null)
+                    {
+                        <li><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                        <li><a asp-controller="Home" asp-action="UserManagement">Users</a></li>
+                        <li><a asp-controller="Home" asp-action="About">About</a></li>
+                        <li class="auth-links">
+                            <span class="welcome-text">Welcome, @Context.Session.GetString("UserName")</span>
+                            <a asp-controller="Home" asp-action="Logout" class="logout-btn">Logout</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li><a asp-controller="Home" asp-action="About">About</a></li>
+                        <li class="auth-links">
+                            <a asp-controller="Home" asp-action="Login">Login</a>
+                            <a asp-controller="Home" asp-action="Register" class="register-btn">Register</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </nav>
