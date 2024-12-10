@@ -185,6 +185,16 @@ namespace SecureHomeAI_2.Controllers
             }
         }
 
+        // debug page
+        public IActionResult Debug()
+        {
+            if (HttpContext.Session.GetString("UserId") == null)
+            {
+                return RedirectToAction("Login");
+            }
+            return View();
+        }
+
         // GET: Home/UserManagement
         public IActionResult UserManagement(string searchQuery = null)
         {

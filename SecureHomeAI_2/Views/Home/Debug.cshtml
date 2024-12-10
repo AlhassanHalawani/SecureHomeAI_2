@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Debug Information";
+}
+
+<div class="debug-container">
+    <div class="debug-header">
+        <h1>System Debug Information</h1>
+        <a asp-action="UserManagement" class="btn btn-secondary">Back to User Management</a>
+    </div>
+
+    <div class="debug-grid">
+        <div class="debug-section">
+            <h2>Cookie Information</h2>
+            <div class="debug-content">
+                <ul>
+                    @foreach (var cookie in Context.Request.Cookies)
+                    {
+                        <li>
+                            <span class="key">@cookie.Key:</span>
+                            <span class="value">@cookie.Value</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h2>Session Information</h2>
+            <div class="debug-content">
+                <ul>
+                    @foreach (var key in Context.Session.Keys)
+                    {
+                        <li>
+                            <span class="key">@key:</span>
+                            <span class="value">@Context.Session.GetString(key)</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="debug-section">
+            <h2>Browser Information</h2>
+            <div class="debug-content">
+                <ul>
+                    <li>
+                        <span class="key">User Agent:</span>
+                        <span class="value">@Context.Request.Headers["User-Agent"]</span>
+                    </li>
+                    <li>
+                        <span class="key">IP Address:</span>
+                        <span class="value">@Context.Connection.RemoteIpAddress</span>
+                    </li>
+                    <li>
+                        <span class="key">Protocol:</span>
+                        <span class="value">@Context.Request.Protocol</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+

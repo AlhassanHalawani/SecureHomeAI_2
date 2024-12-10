@@ -17,3 +17,94 @@
 .text-center {
     text-align: center; /* Center-align text */
 }
+
+
+
+.header-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .user-management-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .header-actions {
+        width: 100%;
+    }
+
+        .header-actions a {
+            flex: 1;
+            text-align: center;
+        }
+}
+
+.debug-container {
+    background: var(--secondary-color);
+    border-radius: 8px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: var(--card-shadow);
+}
+
+.debug-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.debug-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.debug-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    padding: 1.5rem;
+}
+
+    .debug-section h2 {
+        color: var(--accent-color);
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+    }
+
+.debug-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+.debug-content li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+    .debug-content li:last-child {
+        border-bottom: none;
+    }
+
+.debug-content .key {
+    color: var(--accent-color);
+    font-weight: bold;
+    margin-right: 0.5rem;
+}
+
+.debug-content .value {
+    word-break: break-all;
+}
+
+@media (max-width: 768px) {
+    .debug-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .debug-grid {
+        grid-template-columns: 1fr;
+    }
+}

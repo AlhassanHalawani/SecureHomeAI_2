@@ -1,10 +1,14 @@
 ﻿@model IEnumerable<SecureHomeAI_2.Models.User>
 
-<div class="user-management-container">
-    <div class="user-management-header">
-        <h1>User Management</h1>
+<div class="user-management-header">
+    <h1>User Management</h1>
+    <div class="header-actions">
+        <a asp-action="Debug" class="btn btn-secondary">View Debug Info</a>
         <a asp-action="AddUser" class="btn btn-primary">Add New User</a>
     </div>
+</div>
+
+
 
     <!-- Search Form -->
     <div class="search-section">
